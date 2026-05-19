@@ -58,5 +58,12 @@ function validate() {
     } else if (selectedSalary < 1500 && selectedSalary > 50000) {
         e.salary = 'Please enter salary within range (RM 1500 - RM 50,000).'
     }
+
+    errors.value = e 
+    return Object.keys(e).length === 0
+}
+
+function onSubmit() {
+    if (!validate()) return
 }
 </script>
