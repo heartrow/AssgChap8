@@ -1,0 +1,32 @@
+### Create 
+POST http://localhost:3000/employees
+Content-Type: application/json
+
+{
+    "empId": "EMP006", 
+    "name": "Skibidu", 
+    "email": "skibudy.o@company.my", 
+    "department": "Finance", 
+    "position": "Junior Developer", 
+    "hireDate": "2022-01-12", 
+    "salary": 7500.00, 
+    "active": "TRUE"
+}
+
+### Update (replace <id> with the id returned above)
+PUT http://localhost:3000/employees/EMP006
+Content-Type: application/json
+
+{
+    "empId": "EMP006", 
+    "name": "Skibidu", 
+    "email": "skibudy.o@company.my", 
+    "department": "Finance", 
+    "position": "Senior Developer (updated)", 
+    "hireDate": "2022-01-12", 
+    "salary": 8500.00, 
+    "active": "TRUE"
+}
+
+### Delete
+DELETE http://localhost:3000/employees/EMP006
