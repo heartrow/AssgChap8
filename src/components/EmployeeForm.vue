@@ -67,7 +67,18 @@ function onSubmit() {
     if (!validate()) return
     emit('save', {
         ...form.value,
-        
+        empId:      form.value.empId.trim().toUpperCase,
+        name:       form.value.name.trim(),
+        email:      form.value.email.trim(),
+        department: form.value.department.trim(),
+        position:   form.value.position.trim()
     })
+    if (!isEditing.value) form.value = emptyForm()
+}
+
+function onCancel() {
+    emit('cancel')
+    form.value = emptyForm()
+    errors.value = {}
 }
 </script>
