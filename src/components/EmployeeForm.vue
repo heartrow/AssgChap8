@@ -82,3 +82,60 @@ function onCancel() {
     errors.value = {}
 }
 </script>
+
+<template>
+    <form @submit.prevent="onSubmit" class="employee-form">
+        <h3>{{ isEditing ? 'Edit Student' : 'Add New Student' }}</h3>
+
+        <label>Matric No
+            <input v-model.trim="form.empId" placeholder="EMP000" />
+            <span v-if="errors.empId" class="err">{{ errors.empId }}</span>
+        </label>
+
+        <label>Full Name
+            <input v-model.trim="form.name" />
+            <span v-if="errors.name" class="err">{{ errors.name }}</span>
+        </label>
+
+        <label>Course
+        <input v-model.trim="form.course" />
+        <span v-if="errors.course" class="err">{{ errors.course }}</span>
+        </label>
+
+        <label>Faculty
+        <select v-model="form.faculty">
+        <option value="">-- Select --</option>
+        <option>FSKSM</option>
+        <option>FKE</option>
+        <option>FAB</option>
+        </select>
+        <span v-if="errors.faculty" class="err">{{ errors.faculty }}</span>
+        </label>
+
+        <label>Email
+        <input v-model.trim="form.email" type="email" />
+        <span v-if="errors.email" class="err">{{ errors.email }}</span>
+        </label>
+
+        <label>GPA
+        <input v-model.number="form.gpa" type="number" step="0.01"
+        min="0" max="4" />
+        <span v-if="errors.gpa" class="err">{{ errors.gpa }}</span>
+        </label>
+
+        <label>Year
+        <select v-model.number="form.year">
+        <option v-for="y in [1,2,3,4,5,6]" :key="y" :value="y">{{ y }}</option>
+        </select>
+        </label>
+
+        <label class="check">
+        <input type="checkbox" v-model="form.active" /> Active student
+        </label>
+
+        <div class="actions">
+        <button type="submit">{{ isEditing ? 'Update' : 'Add' }}</button>
+        <button v-if="isEditing" type="button" @click="onCancel">Cancel</button>
+        </div>
+    </form>
+</template>

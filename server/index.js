@@ -40,10 +40,10 @@ app.get('/employees', async (req, res) => {
 })
 
 // --- READ single ---
-app.get('/employees/:empId', async (req, res) => {
+app.get('/employees/:id', async (req, res) => {
     try {
         const [rows] = await pool.query(
-            'SELECT * FROM employees WHERE empId = ?', [req.params.empId])
+            'SELECT * FROM employees WHERE id = ?', [req.params.id])
         if (!rows.length) return res.status(404).json({ error: 'Not found' })
             res.json(rows[0])
     } catch (err) {
@@ -55,20 +55,13 @@ app.get('/employees/:empId', async (req, res) => {
 app.post('/employees', async (req, res) => {
     try {
         const { empId, name, email, department, position, hireDate, salary, active } = req.body
-        
-        if (!empId) {
-            return res.status(400).json({ error: 'An explicit Employee ID is required' })
-        }
-        
-        await pool.query (
+        const [r] = await pool.query (
             `INSERT INTO employees
                 (empId, name, email, department, position, hireDate, salary, active)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
                 [empId, name, email, department, position, hireDate, salary, active ? 1 : 0]
         )
-
-        res.status(201).json(req.body)
-
+        res.status(201).json({ id: r.insertId, ...req.body })
     } catch (err) {
         if (err.code === 'ER_DUP_ENTRY') {
             return res.status(409).json({ error: 'Employee ID already exists' })
@@ -79,33 +72,29 @@ app.post('/employees', async (req, res) => {
 })
 
 // --- UPDATE ---
-app.put('/employees/:empId', async (req, res) => {
+app.put('/employees/:id', async (req, res) => {
     try {
         const { empId, name, email, department, position, hireDate, salary, active } = req.body
         const [r] = await pool.query(
             `UPDATE employees SET
                 empId=?, name=?, email=?, department=?, 
                 position=?, hireDate=?, salary=?, active=?
-            WHERE empId=?`,
+            WHERE id=?`,
             [empId, name, email, department, position, hireDate, salary, 
-             active ? 1 : 0, req.params.empId]
+             active ? 1 : 0, req.params.id]
         )
         if (!r.affectedRows) return res.status(404).json({ error: 'Not found' })
-
-        res.json(req.body)
+        res.json({ id: Number(req.params.id), ...req.body })
     } catch (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ error: 'Cannot update: Target Employee ID already exists' })
-        }
         res.status(500).json({ error: 'Database error' })
     }
 })
 
 // --- DELETE ---
-app.delete('/employees/:empId', async (req, res) => {
+app.delete('/employees/:id', async (req, res) => {
     try {
         const [r] = await pool.query(
-            'DELETE FROM employees WHERE empId = ?', [req.params.empId])
+            'DELETE FROM employees WHERE id = ?', [req.params.id])
         if (!r.affectedRows) return res.status(404).json({ error: 'Not found' })
         res.json({ deleted: true })
     } catch (err) {

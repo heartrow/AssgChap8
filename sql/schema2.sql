@@ -7,7 +7,8 @@ USE employee_records;
 DROP TABLE IF EXISTS employees;
 
 CREATE TABLE employees (
-    empId       VARCHAR(10) PRIMARY KEY,
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    empId       VARCHAR(10),
     name        VARCHAR(120) NOT NULL,
     email       VARCHAR(255) UNIQUE NOT NULL,
     department  VARCHAR(50) NOT NULL,
