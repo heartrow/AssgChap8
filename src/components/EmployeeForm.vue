@@ -65,5 +65,9 @@ function validate() {
 
 function onSubmit() {
     if (!validate()) return
+    emit('save', {
+        ...form.value,
+        
+    })
 }
 </script>

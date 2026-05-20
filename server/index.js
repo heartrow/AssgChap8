@@ -25,7 +25,7 @@ app.get('/employees', async (req, res) => {
             params.push(like, like, like, like)
         }
 
-        const allowedSort = ['name', 'matricNo', 'gpa', 'year']
+        const allowedSort = ['name', 'empId', 'department', 'position', 'hireDate']
         if (sortBy && allowedSort.includes(sortBy)) {
             const direction = order === 'desc' ? 'DESC' : 'ASC'
             sql += ` ORDER BY ${sortBy} ${direction}`
@@ -55,16 +55,23 @@ app.get('/employees/:empId', async (req, res) => {
 app.post('/employees', async (req, res) => {
     try {
         const { empId, name, email, department, position, hireDate, salary, active } = req.body
-        const [r] = await pool.query (
+        
+        if (!empId) {
+            return res.status(400).json({ error: 'An explicit Employee ID is required' })
+        }
+        
+        await pool.query (
             `INSERT INTO employees
                 (empId, name, email, department, position, hireDate, salary, active)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
                 [empId, name, email, department, position, hireDate, salary, active ? 1 : 0]
         )
-        res.status(201).json({ empId: r.insertId, ...req.body})
+
+        res.status(201).json(req.body)
+
     } catch (err) {
         if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ error: 'Matric number already exists' })
+            return res.status(409).json({ error: 'Employee ID already exists' })
         }
         console.error(err)
         res.status(500).json({ error: 'Database error' })
@@ -84,8 +91,12 @@ app.put('/employees/:empId', async (req, res) => {
              active ? 1 : 0, req.params.empId]
         )
         if (!r.affectedRows) return res.status(404).json({ error: 'Not found' })
-        res.json({ empId: Number(req.params.empId), ...req.body })
+
+        res.json(req.body)
     } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ error: 'Cannot update: Target Employee ID already exists' })
+        }
         res.status(500).json({ error: 'Database error' })
     }
 })
