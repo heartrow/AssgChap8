@@ -36,9 +36,17 @@ apiClient.interceptors.response.use(
 // 4. CRUD helpers
 export const getEmployee= (params = {}) =>
     apiClient.get('/employees', { params })
-export const getEmployee = (empId) => apiClient.get(`/employees/${id}`)
-export const createEmployee = (s) => apiClient.post('/employees', s)
-export const updateEmployee = (empId, s) => apiClient.put(`/employees/${id}`, s)
-export const deleteEmployee = (empId) => apiClient.delete(`/employees/${id}`)
+
+export const getEmployee = (empId) => 
+    apiClient.get(`/employees/${empId}`)
+
+export const createEmployee = (employeeData) => 
+    apiClient.post('/employees', employeeData)
+
+export const updateEmployee = (empId, employeeData) => 
+    apiClient.put(`/employees/${empId}`, employeeData)
+
+export const deleteEmployee = (empId) => 
+    apiClient.delete(`/employees/${empId}`)
 
 export default apiClient
