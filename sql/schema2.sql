@@ -30,4 +30,8 @@ VALUES
     ('EMP004', 'Dinesh Kumar', 'dinesh.k@company.my', 'Operations', 
         'Supply Chain Manager', '2021-06-20', 9500.00, TRUE),
     ('EMP005', 'Elena Gilbert', 'elena.g@company.my', 'HR', 
-        'HR Assistant', '2023-09-12', 3800.00, FALSE);
+        'HR Assistant', '2023-09-12', 3800.00, FALSE),
+    ('EMP006', 'Fahmi Zaki', 'fahmi.z@company.my', 'IT', 
+        'Junior Developer', '2024-01-20', 4200.00, TRUE),
+    ('EMP007', 'Grace Lee', 'grace.l@company.my', 'Sales', 
+        'Sales Associate', '2023-03-28', 4500.00, TRUE);
