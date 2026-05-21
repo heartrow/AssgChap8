@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### Update (replace <id> with the id returned above)
-PUT http://localhost:3000/employees/EMP006
+PUT http://localhost:3000/employees/6
 Content-Type: application/json
 
 {

@@ -37,16 +37,16 @@ apiClient.interceptors.response.use(
 export const getEmployee= (params = {}) =>
     apiClient.get('/employees', { params })
 
-export const getEmployee = (empId) => 
-    apiClient.get(`/employees/${empId}`)
+export const getEmployee = (id) => 
+    apiClient.get(`/employees/${id}`)
 
-export const createEmployee = (employeeData) => 
-    apiClient.post('/employees', employeeData)
+export const createEmployee = (s) => 
+    apiClient.post('/employees', s)
 
-export const updateEmployee = (empId, employeeData) => 
-    apiClient.put(`/employees/${empId}`, employeeData)
+export const updateEmployee = (id, s) => 
+    apiClient.put(`/employees/${id}`, s)
 
-export const deleteEmployee = (empId) => 
-    apiClient.delete(`/employees/${empId}`)
+export const deleteEmployee = (id) => 
+    apiClient.delete(`/employees/${id}`)
 
 export default apiClient
