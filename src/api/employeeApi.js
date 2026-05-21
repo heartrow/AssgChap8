@@ -34,7 +34,7 @@ apiClient.interceptors.response.use(
 )
 
 // 4. CRUD helpers
-export const getEmployee= (params = {}) =>
+export const getEmployees= (params = {}) =>
     apiClient.get('/employees', { params })
 
 export const getEmployee = (id) => 

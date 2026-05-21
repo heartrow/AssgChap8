@@ -2,13 +2,19 @@
 import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
-    editingEmployees: { type: Object, default: null }
+    editingEmployee: { type: Object, default: null }
 })
 const emit = defineEmits(['save', 'cancel'])
 
 const emptyForm = () => ({
-    empId: '', name: '', email: '', department: '', 
-    position: '', hireDate: '', salary: '', active: true
+    empId: '', 
+    name: '', 
+    email: '', 
+    department: '', 
+    position: '', 
+    hireDate: '', 
+    salary: '', 
+    active: true
 })
 
 const form = ref(emptyForm())
@@ -20,7 +26,8 @@ watch(() => props.editingEmployee, (val) => {
 }, { immediate: true })
 
 const isEditing = computed(() => Boolean(props.editingEmployee))
-const empIdRegex = /^EMP[0-9]{3}$/
+
+const empIdRegex = /^EMP[0-9]{3,5}$/
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const today = new Date().toISOString().split('T')[0]
 const selectedDate = form.value.hireDate
@@ -47,15 +54,16 @@ function validate() {
         e.position = 'Please enter the position.'
     }
 
-    if (!selectedDate) {
+    if (!form.value.hireDate) {
         e.hireDate = 'Date is required.'
-    } else if (selectedDate > today) {
+        console.log('Selected Date:', form.value.hireDate)
+    } else if (form.value.hireDate > today) {
         e.hireDate = 'Date cannot be in the future.'
     }
 
-    if (!selectedSalary) {
+    if (!form.value.salary) {
         e.salary = 'Please enter salary.'
-    } else if (selectedSalary < 1500 && selectedSalary > 50000) {
+    } else if (form.value.salary < 1500 || form.value.salary > 50000) {
         e.salary = 'Please enter salary within range (RM 1500 - RM 50,000).'
     }
 
@@ -67,7 +75,7 @@ function onSubmit() {
     if (!validate()) return
     emit('save', {
         ...form.value,
-        empId:      form.value.empId.trim().toUpperCase,
+        empId:      form.value.empId.trim().toUpperCase(),
         name:       form.value.name.trim(),
         email:      form.value.email.trim(),
         department: form.value.department.trim(),
@@ -98,42 +106,42 @@ function onCancel() {
         </label>
 
         <label>Email
-        <input v-model.trim="form.email" type="email" />
-        <span v-if="errors.email" class="err">{{ errors.email }}</span>
+            <input v-model.trim="form.email" type="email" />
+            <span v-if="errors.email" class="err">{{ errors.email }}</span>
         </label>
 
         <label>Department
-        <select v-model="form.department">
-        <option value="">-- Select --</option>
-        <option>Human Resources</option>
-        <option>Finance</option>
-        <option>IT</option>
-        </select>
-        <span v-if="errors.department" class="err">{{ errors.department }}</span>
+            <select v-model="form.department">
+                <option value="">-- Select --</option>
+                <option>Human Resources</option>
+                <option>Finance</option>
+                <option>IT</option>
+            </select>
+            <span v-if="errors.department" class="err">{{ errors.department }}</span>
         </label>
 
         <label>Position
-        <input v-model.trim="form.position" />
-        <span v-if="errors.position" class="err">{{ errors.position }}</span>
+            <input v-model.trim="form.position" />
+            <span v-if="errors.position" class="err">{{ errors.position }}</span>
         </label>
 
         <label>Hire Date
-        <input v-model.trim="form.hireDate" type="date" />
-        <span v-if="errors.hireDate" class="err">{{ errors.hireDate }}</span>
+            <input v-model.trim="form.hireDate" type="date" />
+            <span v-if="errors.hireDate" class="err">{{ errors.hireDate }}</span>
         </label>
 
         <label>Salary
-        <input v-model.number="form.salary" type="number" step="0.01" min="0" />
-        <span v-if="errors.salary" class="err">{{ errors.salary }}</span>
+            <input v-model.number="form.salary" type="number" step="0.01" min="0" />
+            <span v-if="errors.salary" class="err">{{ errors.salary }}</span>
         </label>
 
         <label class="check">
-        <input type="checkbox" v-model="form.active" /> Active employee
+            <input type="checkbox" v-model="form.active" /> Active employee
         </label>
 
         <div class="actions">
-        <button type="submit">{{ isEditing ? 'Update' : 'Add' }}</button>
-        <button v-if="isEditing" type="button" @click="onCancel">Cancel</button>
+            <button type="submit">{{ isEditing ? 'Update' : 'Add' }}</button>
+            <button v-if="isEditing" type="button" @click="onCancel">Cancel</button>
         </div>
     </form>
 </template>

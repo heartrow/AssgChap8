@@ -1,0 +1,206 @@
+/* 🛠️ FIX 1: Universal Box Sizing (Stops inputs from overflowing their cards) */
+* {
+    box-sizing: border-box;
+}
+
+body { 
+    font-family: system-ui, -apple-system, sans-serif; 
+    background: #f8fafc;
+    margin: 0; 
+    color: #0f172a; 
+}
+
+header { 
+    background: #0f766e; 
+    color: white; 
+    padding: 1.5rem 2rem; 
+}
+header h1 { margin: 0; font-size: 1.8rem; font-weight: 700; }
+header .subtitle { margin: 0.3rem 0 0; opacity: 0.85; font-size: 0.95rem; }
+
+/* 🛠️ FIX 2: Modern Responsive Grid Split Layout */
+/* On desktop, Form takes 1 part, Table takes 2 parts. On mobile, they stack. */
+main { 
+    max-width: 1300px; 
+    margin: 2rem auto; 
+    padding: 0 1.5rem;
+    display: grid; 
+    gap: 1.5rem; 
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+    main {
+        grid-template-columns: 350px 1fr;
+        align-items: start;
+    }
+}
+
+/* Containers */
+.employee-form, .employee-table {
+    background: white; 
+    padding: 1.5rem;
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+}
+
+/* Form Headings */
+.employee-form h3 {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: #0f172a;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+}
+
+/* Form Fields */
+.employee-form label { 
+    display: block; 
+    margin-bottom: 1rem; 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    color: #475569;
+}
+
+.employee-form input, .employee-form select {
+    display: block; 
+    width: 100%; 
+    padding: 0.55rem 0.75rem; 
+    margin-top: 0.35rem;
+    border: 1px solid #cbd5e1; 
+    border-radius: 6px;
+    font-family: inherit;
+    color: #0f172a;
+    background-color: #fff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Interactive Input Focus States */
+.employee-form input:focus, .employee-form select:focus {
+    outline: none;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+}
+
+/* Inline Checkbox Styling Fix */
+.employee-form label.check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin: 1.2rem 0;
+}
+.employee-form label.check input {
+    width: auto;
+    margin-top: 0;
+    cursor: pointer;
+}
+
+/* Error Messages */
+.employee-form .err { 
+    color: #b91c1c; 
+    font-size: 0.78rem; 
+    font-weight: 400;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+/* Buttons and Form Actions Group */
+.employee-form .actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+button { 
+    padding: 0.55rem 1.2rem; 
+    border: 0;
+    background: #0f766e; 
+    color: white; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: 500;
+    font-family: inherit;
+    transition: background 0.15s ease;
+}
+button:hover { background: #0f5b55; }
+
+/* 🛠️ FIX 3: Table buttons spacing */
+.employee-table button {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+    margin-right: 0.35rem;
+}
+.employee-table button:last-child {
+    margin-right: 0;
+}
+
+button.danger,
+.danger { background: #dc2626; }
+button.danger:hover, .danger:hover { background: #b91c1c; }
+
+/* Secondary Cancel Button styling */
+button[type="button"] {
+    background: #e2e8f0;
+    color: #334155;
+}
+button[type="button"]:hover {
+    background: #cbd5e1;
+}
+
+/* Tables Layout & Aesthetics */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Gracefully scroll table horizontally on smaller screens */
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { 
+    text-align: left; 
+    padding: 0.75rem 0.85rem;
+    border-bottom: 1px solid #e2e8f0; 
+    vertical-align: middle; 
+}
+th { 
+    background: #f8fafc; 
+    color: #475569; 
+    font-weight: 600; 
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+tr:hover td {
+    background-color: #f8fafc; /* Subtle row hover styling */
+}
+
+code { 
+    background: #ccfbf1; 
+    color: #115e59;
+    padding: 0.2rem 0.4rem; 
+    border-radius: 4px; 
+    font-weight: 600;
+}
+.muted { font-size: 0.8rem; color: #64748b; margin-top: 0.1rem; }
+
+/* Badges Status Labels */
+.badge { 
+    display: inline-flex; 
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px; 
+    font-size: 0.75rem; 
+    font-weight: 600;
+}
+.badge.ok { background: #d1fae5; color: #065f46; }
+.badge.no { background: #fee2e2; color: #991b1b; }
+
+.error { 
+    background: #fee2e2; 
+    color: #991b1b; 
+    padding: 0.75rem 1.2rem;
+    border-radius: 8px; 
+    border: 1px solid #fca5a5;
+    grid-column: 1 / -1; /* Stretch across all columns */
+}
+.loading { color: #64748b; font-style: italic; grid-column: 1 / -1; }
+.empty { color: #64748b; text-align: center; padding: 2rem; font-style: italic; }

@@ -26,7 +26,7 @@ const emit = defineEmits(['edit', 'delete'])
                 <td>{{ s.department }}</td>
                 <td>{{ s.position }}</td>
                 <td>{{ s.hireDate }}</td>
-                <td>{{ s.salary }}</td>
+                <td>RM {{ Number(s.salary).toFixed(2) }}</td>
                 <td>
                     <span :class="s.active ? 'badge ok' : 'badge no'">
                         {{ s.active ? 'Active' : 'Inactive' }}
