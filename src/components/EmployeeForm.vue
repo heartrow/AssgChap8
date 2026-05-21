@@ -15,7 +15,7 @@ const form = ref(emptyForm())
 const errors = ref({})
 
 watch(() => props.editingEmployee, (val) => {
-    form.value = val? { ...val } : emptyForm()
+    form.value = val ? { ...val } : emptyForm()
     errors.value = {}
 }, { immediate: true })
 
@@ -85,9 +85,9 @@ function onCancel() {
 
 <template>
     <form @submit.prevent="onSubmit" class="employee-form">
-        <h3>{{ isEditing ? 'Edit Student' : 'Add New Student' }}</h3>
+        <h3>{{ isEditing ? 'Edit Employee' : 'Add New Employee' }}</h3>
 
-        <label>Matric No
+        <label>Employee ID
             <input v-model.trim="form.empId" placeholder="EMP000" />
             <span v-if="errors.empId" class="err">{{ errors.empId }}</span>
         </label>
@@ -97,40 +97,38 @@ function onCancel() {
             <span v-if="errors.name" class="err">{{ errors.name }}</span>
         </label>
 
-        <label>Course
-        <input v-model.trim="form.course" />
-        <span v-if="errors.course" class="err">{{ errors.course }}</span>
-        </label>
-
-        <label>Faculty
-        <select v-model="form.faculty">
-        <option value="">-- Select --</option>
-        <option>FSKSM</option>
-        <option>FKE</option>
-        <option>FAB</option>
-        </select>
-        <span v-if="errors.faculty" class="err">{{ errors.faculty }}</span>
-        </label>
-
         <label>Email
         <input v-model.trim="form.email" type="email" />
         <span v-if="errors.email" class="err">{{ errors.email }}</span>
         </label>
 
-        <label>GPA
-        <input v-model.number="form.gpa" type="number" step="0.01"
-        min="0" max="4" />
-        <span v-if="errors.gpa" class="err">{{ errors.gpa }}</span>
+        <label>Department
+        <select v-model="form.department">
+        <option value="">-- Select --</option>
+        <option>Human Resources</option>
+        <option>Finance</option>
+        <option>IT</option>
+        </select>
+        <span v-if="errors.department" class="err">{{ errors.department }}</span>
         </label>
 
-        <label>Year
-        <select v-model.number="form.year">
-        <option v-for="y in [1,2,3,4,5,6]" :key="y" :value="y">{{ y }}</option>
-        </select>
+        <label>Position
+        <input v-model.trim="form.position" />
+        <span v-if="errors.position" class="err">{{ errors.position }}</span>
+        </label>
+
+        <label>Hire Date
+        <input v-model.trim="form.hireDate" type="date" />
+        <span v-if="errors.hireDate" class="err">{{ errors.hireDate }}</span>
+        </label>
+
+        <label>Salary
+        <input v-model.number="form.salary" type="number" step="0.01" min="0" />
+        <span v-if="errors.salary" class="err">{{ errors.salary }}</span>
         </label>
 
         <label class="check">
-        <input type="checkbox" v-model="form.active" /> Active student
+        <input type="checkbox" v-model="form.active" /> Active employee
         </label>
 
         <div class="actions">
